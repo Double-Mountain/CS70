@@ -1,0 +1,210 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\newcounter{questionnumber}
+\newenvironment{question}[1][]{\stepcounter{questionnumber}\par\noindent\textbf{Question \thequestionnumber. #1}\par}{\par}
+\newenvironment{solution}{\par\noindent\textbf{Solution:}\par}{\par\vspace{1em}}
+\begin{document}
+\section{Discussion 04b}
+\begin{question}
+    \noindent
+    (a) If $f$ and $g$ are non-zero real polynomials, how many real roots do the following polynomials have at least? How many can they have at most? (Your answer may depend on the degrees of $f$ and $g$.)
+
+    (i) $f + g$
+
+    (ii) $f \cdot g$
+
+    (iii) $f / g$, assuming that $f / g$ is a polynomial\\
+    (b) Now let $f$ and $g$ be polynomials over $\mathrm{GF}(p)$.
+
+    (i) We say a polynomial $f = 0$ if $\forall x, f(x) = 0$. Show that if $f \cdot g = 0$, it is not always true that either $f = 0$ or $g = 0$.
+
+    (ii) How many $f$ of degree exactly $d < p$ are there such that $f(0) = a$ for some fixed $a \in \{0, 1, \ldots, p - 1\}$?\\
+    (c) Find a polynomial $f$ over $\mathrm{GF}(5)$ that satisfies $f(0) = 1$, $f(2) = 2$, $f(4) = 0$. How many such polynomials of degree at most 4 are there?
+\end{question}
+\begin{solution}
+    \noindent
+    (a)(i)least: 0; most: infinite.
+
+    (ii)least: 0; most: the product of the degrees of $f$ and $g$.
+
+    (iii)least: 0; the degree of $f$ minus the degree of $g$.\\
+    (b)(i)Let $p=2; f\left( x \right) =x+1; g\left( x \right) =x$.
+
+    (ii)$d$, since there are $d$ free coefficients.\\
+    (c)$f(x)=4x^2+1$; $5\times5=25$
+\end{solution}
+\begin{question}
+    Find a unique polynomial $p(x)$ of degree at most 2 that passes through points $(-1,3)$, $(0,1)$, and $(1,2)$ in modulo 5 arithmetic using the Lagrange interpolation.\\
+    (a) Find $p_{-1}(x)$ where $p_{-1}(0) \equiv p_{-1}(1) \equiv 0 \pmod{5}$ and $p_{-1}(-1) \equiv 1 \pmod{5}$.\\
+    (b) Find $p_{0}(x)$ where $p_{0}(-1) \equiv p_{0}(1) \equiv 0 \pmod{5}$ and $p_{0}(0) \equiv 1 \pmod{5}$.\\
+    (c) Find $p_{1}(x)$ where $p_{1}(-1) \equiv p_{1}(0) \equiv 0 \pmod{5}$ and $p_{1}(1) \equiv 1 \pmod{5}$.\\
+    (d) Construct $p(x)$ using a linear combination of $p_{-1}(x)$, $p_{0}(x)$, and $p_{1}(x)$.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $p_{-1}\left( x \right) \equiv \frac{x\left( x-1 \right)}{-1\times \left( -1-1 \right)}\equiv 3x^2+2x\left( \mathrm{mod}\;5 \right) $\\
+    (b) $p_0\left( x \right) \equiv \frac{\left( x+1 \right) \left( x-1 \right)}{\left( 0+1 \right) \left( 0-1 \right)}\equiv 4x^2+1\left( \mathrm{mod}\;5 \right) $\\
+    (c) $p_1\left( x \right) \equiv \frac{\left( x+1 \right) \left( x-0 \right)}{\left( 1+1 \right) \left( 1-0 \right)}\equiv 3x^2+3x\left( \mathrm{mod}\;5 \right) $\\
+    (d) $p\left( x \right) \equiv 3p_{-1}+p_0\left( x \right) +2p_1\left( x \right) \equiv 4x^2+2x+1\left( \mathrm{mod}\;5 \right) $
+\end{solution}
+\begin{question}
+    A vault in the United Nations can be opened with a secret combination $s \in Z$. In only two situations should this vault be opened: (i) all 193 member countries must agree, or (ii) at least 55 countries, plus the U.N. Secretary-General, must agree.\\
+    (a) Propose a scheme that gives private information to the Secretary-General and all 193 member countries so that the secret combination s can only be recovered under either one of the two specified conditions.\\
+    (b) The General Assembly of the UN decides to add an extra level of security: each of the 193 member countries has a delegation of 12 representatives, all of whom must agree in order for that country to help open the vault. Propose a scheme that adds this new feature. The scheme should give private information to the Secretary-General and to each representative of each country.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Find a polynomial $p(x)$ with degree at most $192$ such that $p(0)=x$
+    Give each member countries a unique number $i$ other than 0 and the value of $p(i)$.
+    Give the U.N. Secretary-General 138 numbers different from the member countries' numbers and 0 and the corresponding value of $p(x)$.\\
+    (b) On the basis of (a), instead of giving each country $p(i)$, find another polynomial $p_i(x)$ with degree at most 11 such that $p_i(0)=p(i)$ and give each member both $i$ and a unique number $j$ other than 0, and also give them the value of $p_i(j)$.
+\end{solution}
+\begin{question}
+    A secret number s is required to launch a rocket, and Alice distributed the values
+    $(1,p(1)),(2,p(2)),\ldots,(n+1,p(n+1))$ of a degree $n$ polynomial $p$ to a group of \$GME holders $\text{Bob}_1,\ldots,\text{Bob}_{n+1}.$
+
+    As usual, she chose $p$ such that $p(0)=s.$ Bob$_1$ through Bob$_{n+1}$ now gather to jointly discover the secret. However, Bob$_1$ is secretly a partner at Melvin Capital and already knows s, and wants to sabotage $\mathrm{Bob}_2,\ldots,\mathrm{Bob}_{n+1}$, making them believe that the secret is in fact some fixed $s^\prime\neq s.$ How could he achieve this? In other words, what value should he report (in terms variables known in the problem, such as $s^\prime,s$ or $y_1)$ in order to make the others believe that the secret is $s^\prime?$
+\end{question}
+\begin{solution}
+    $s\prime -s=\left( y_1\prime -y_1 \right) \left( n+1 \right) !n^{-1}\Longrightarrow y_1\prime =y_1+\left( n+1 \right) ^{-1}\left( s^{\prime}-s \right) $
+\end{solution}
+\section{Discussion 05a}
+\begin{question}
+    Let $P(i)$, a polynomial applied to the input $i$, be the original encoded polynomial before sent, and let $r_i$ be the received info for the input $i$ which may or may not be corrupted.\\
+    (a) If you want to send a length-$n$ message, what should the degree of $P(x)$ be? Why?\\
+    (b) When does $r_i=P(i)?$ When does $r_i$ not equal $P(i)?$\\
+    (c) If there are at most $k$ erasure errors, how many packets should you send? If there are at most $k$ general errors, how many packets should you send? (We will see the reason for this later.) Now we will only consider general errors.\\
+    (d) What do the roots of the error polynomial $E(x)$ represent? Does the receiver know the roots of
+    $E(x)?$ If there are at most $k$ errors, what is the maximum degree of $E(x)?$ Using the information
+    about the degree of $P(x)$ and $E(x)$, what is the degree of $Q(x)=P(x)E(x)?$\\
+    (e) Why is the equation $Q(i) = P(i) E(i) = r_iE(i)$ always true? ( Consider what happens when $P( i) = r_i$,and what happens when $P( i)$ does not equal $r_i. )$\\
+    (f) In the polynomials $Q(x)$ and $E(x)$, how many total unknown coefficients are there? (These are the variables you must solve for. Think about the degree of the polynomials.) When you receive packets, how many equations do you have? Do you have enough equations to solve for all of the unknowns? (Think about the answer to the earlier question - does it make sense now why we send as many packets as we do?)\\
+    (g) If you have $Q(x)$ and $E(x)$, how does one recover $P(x)?$ If you know $P(x)$,how can you recover
+    the original message?
+\end{question}
+\begin{solution}
+    \noindent
+    (a) At most $n-1$. Because $n$ points can determine a unique polynomial with degree at most $n-1$.\\
+    (b) When the info is not corrupted. When the info is corrupted.\\
+    (c) $n+k$. $n+2k$.\\
+    (d) The roots of $E(x)$ represent where the errors may occur.
+    The receiver does not know the roots of $E(x)$.
+    The maximum degree of $E(x)$ is $k$.
+    The degree of $Q(x)$ is at most $n+k-1$.\\
+    (e) It is always true since when $P(i) \neq r_i$, $E(i)=0$, and when $P(i)=r_i$ the equation is obviously true.\\
+    (f) There are $n+2k$ total unknown coefficients. We have $n+2k$ equations after receiving packets. We have enough equations to solve for all of the unknowns.
+    (g) $P(x)=Q(x)/E(x)$, and the original message is $P(0), P(1), \dots, P(n-1)$.
+\end{solution}
+\begin{question}
+    In this question we will send the message $(m_{0},m_{1},m_{2})=(1,1,4)$ of length $n=3$. We will use an error-correcting code for $k=1$ general error, doing arithmetic over $\mathrm{GF}(5)$.\\
+    (a) Construct a polynomial $P(x)$ (mod 5) of degree at most 2, so that
+    $$P(0)=1, \quad P(1)=1, \quad P(2)=4.$$
+
+    What is the message $(c_{0},c_{1},c_{2},c_{3},c_{4})$ that is sent?\\
+    (b) Suppose the message is corrupted by changing $c_{0}$ to 0. Set up the system of linear equations in the Berlekamp-Welch algorithm to find $Q(x)$ and $E(x)$.\\
+    (c) Assume that after solving the equations in part (b) we get $Q(x)=4x^{3}+x^{2}+x$ and $E(x)=x$. Show how to recover the original message from $Q$ and $E$.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $P\left( x \right) =\frac{\left( x-1 \right) \left( x-2 \right)}{\left( 0-1 \right) \left( 0-2 \right)}+\frac{\left( x-0 \right) \left( x-2 \right)}{\left( 1-0 \right) \left( 1-2 \right)}+4\frac{\left( x-0 \right) \left( x-1 \right)}{\left( 2-0 \right) \left( 2-1 \right)}=4x^2+x+1\Longrightarrow \left( c_0,c_1,c_2,c_3,c_4 \right) =\left( 1,1,4,0,4 \right) $\\
+    (b) $\begin{cases}
+            0\left( 0+e_0 \right) =0q_3+0q_2+0q_1+q_0\\
+            1\left( 1+e_0 \right) =1q_3+1q_2+1q_1+q_0\\
+            4\left( 2+e_0 \right) =3q_3+4q_2+2q_1+q_0\\
+            0\left( 3+e_0 \right) =2q_3+4q_2+3q_1+q_0\\
+            4\left( 4+e_0 \right) =4q_3+1q_2+4q_1+q_0\\
+        \end{cases}$\\
+    (c) $P\left( x \right) =\frac{Q\left( x \right)}{E\left( x \right)}=\frac{4x^3+x^2+x}{x}=4x^2+x+1$, $P(0)=1, \quad P(1)=1, \quad P(2)=4$
+\end{solution}
+\begin{question}
+    In class we derived how the Berlekamp-Welch algorithm can be used to correct $k$ general errors, given $n+2k$ points transmitted. In real life, it is usually difficult to determine the number of errors that will occur. What if we have less than $k$ errors? This is a follow up to the exercise posed in the notes.
+
+    Suppose Alice wants to send 1 message to Bob and wants to guard against 1 general error. She decides to encode the message with $P(x)=4$ (on GF(7)) such that $P(0)=4$ is the message she want to send. She then sends $P(0),P(1),P(2)=(4,4,4)$ to Bob.\\
+    (a) Suppose Bob receives the message (4,5,4). Without performing Gaussian elimination explicitly, find$E(x)$ and $Q(x).$\\
+    (b) Now, suppose there were no general errors and Bob receives the original message (4,4,4).Show that the $Q(x),E(x)$ that you found in part (a) still satisfies $Q(i)=r_iE(i)$ for all $i=0,1,2.$\\
+    (c) Verify that $E(x)=x,Q(x)=4x$ is another possible set of polynomials that satisfes $Q(i)=r_iE(i)$ for all $i=0,1,2.$\\
+    (d) Suppose you're actually trying to decode the received message (4,4,4). Based on what you showed in the previous two parts, what will happen during row reduction when you try to solve for the unknowns?\\
+    (e) Prove that in general, no matter what the solution of $Q(x)$ and $E(x)$ are though, the recovered $P(x)$ will always be the same.   
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $E\left( x \right) =x+6,Q\left( x \right) =4\left( x+6 \right) =4x+3$\\
+    (b) According to (a), $Q\left( x \right) =4E\left( x \right) $.\\
+    (c) $Q\left( x \right) =4E\left( x \right) $. \\
+    (d) During row reduction, we will get an all-zero row, which means we get multiple solutions.\\
+    (e) Since $E(x)$ is an $k$-degree polynomial and $Q(x)$ has a degree at most $n+k-1$, the recovered $P(x)$ has a degree at most $n-1$.
+    Since $E(x)$ is an $k$-degree polynomial, it has at most $k$ root. Since $r_i=P(i)$ is true for at least $(n+k)$ $i$, when $E(i)\neq 0$, $P\left( i \right) \equiv Q\left( i \right) \left( E\left( i \right) \right) ^{-1}\left( \mathrm{mod}\;7 \right) $ is determined for at least $n$ $i$, which is enough to determine exactly one $P(x)$.
+\end{solution}
+\section{Homework 05}
+\begin{question}
+    This problem is about polynomials with coefficients in GF(p) for some prime $p \in N$. We say that two such polynomials f and g are equivalent if $f(x) \equiv g(x)\pmod{p}$ for every $x \in GF(p)$.\\
+    (a) Show that $f(x) = x^{p-1}$ and $g(x) = 1$ are \textbf{not} equivalent polynomials under GF(p).\\
+    (b) Use Fermat's Little Theorem to find a polynomial with degree strictly less than 5 that is equivalent to $f(x) = x^{5}$ over GF(5); then find a polynomial with degree strictly less than 11 that is equivalent to $g(x) = 4x^{70} + 9x^{11} + 3$ over GF(11).\\
+    (c) In GF(p), prove that whenever f(x) has degree $\geq p$, it is equivalent to some polynomial $\widetilde{f}(x)$ with degree $< p$.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $f\left( 0 \right) \equiv 0\left( \mathrm{mod}\;p \right) , g\left( 0 \right) \equiv 1\left( \mathrm{mod}\;p \right) $\\
+    (b) $x$; $4x^{10}+9x+3$\\
+    (c) For every $x^k(k=q(p-1)+r,0\leq r<k)$, if $r\neq 0$, $x^k\equiv x^{q\left( p-1 \right)}x^r\equiv x^r\left( \mathrm{mod}\;p \right) $.
+    If $q\neq 0, r=0$, $x^k\equiv x^{\left( q-1 \right) \left( p-1 \right)}x^{p-1}\equiv x^{p-1}\left( \mathrm{mod}\;p \right) $.
+    If $q=r=0$, $x^k\equiv 1\pmod{p}$. Therefore, every term is equivalent to a term with degree $<p$, which means $f(x)$ is equivalent to some polynomial $\widetilde{f}(x)$ with degree $< p$.
+\end{solution}
+\begin{question}
+    Suppose the Oral Exam questions are created by 2 TAs and 3 Readers. The answers are all encrypted, and we know that:
+    \begin{itemize}
+        \item Two TAs together should be able to access the answers
+        \item Three Readers together should be able to access the answers
+        \item One TA and one Reader together should also be able to access the answers
+        \item One TA by themselves or two Readers by themselves should not be able to access the answers.
+    \end{itemize}
+
+    Design a Secret Sharing scheme to make this work.
+\end{question}
+\begin{solution}
+    Find a polynomial $f(x)$ with degree at most 2 such that $f(0)$ is the answers.
+    Give each TA 2 points of $f(x)$ and give each Reader 1 point of $f(x)$.
+    Each point is different from each other and is not zero.
+\end{solution}
+\begin{question}
+    Suppose we have a polynomial $f(x) = x^k + c_{k-1}x^{k-1} + \cdots + c_2x^2 + c_1x + c_0$.\\
+    (a) Can we determine $f(x)$ with $k$ points? If so, provide a set of inputs $x_0, x_1, \ldots, x_{k-1}$ such that knowing points $(x_0, f(x_0)), (x_1, f(x_1)), \ldots, (x_{k-1}, f(x_{k-1}))$ allows us to uniquely determine $f(x)$, and show how $f(x)$ can be determined from such points. If not, provide a proof of why this is not possible.\\
+    (b) Now, assume each coefficient is an integer satisfying $0 \leq c_i < 100 \quad \forall i \in [0, k-1]$. Can we determine $f(x)$ with one point? If so, provide an input $x_*$ such that knowing the point $(x_*, f(x_*))$ allows us to uniquely determine $f(x)$, and show how $f(x)$ can be determined from this point. If not, provide a proof of why this is not possible.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Yes, since we can determine $f(x)-x^k$ by $k$ points. We can let $x_i=i$ for every $0\leq i\leq k-1$\\
+    (b) Yes. Let $x=100$. $c_i=\lfloor f(100)/100^i\rfloor\pmod{100}$
+\end{solution}
+\begin{question}
+    \noindent
+    (a) Recall from class the error-correcting code for erasure errors, which protects against up to k lost packets by sending a total of n + k packets (where n is the number of packets in the original message). Often the number of packets lost is not some fixed number k, but rather a fraction of the number of packets sent. Suppose we wish to protect against a fraction $\alpha$ of lost packets (where $0<\alpha<1$). At least how many packets do we need to send (as a function of n and $\alpha$)?\\
+    (b) Repeat part (a) for the case of general errors.
+\end{question}
+\begin{solution}
+    \noindent
+    (a)$x\left( 1-\alpha \right) \ge n\Longrightarrow x\ge \frac{n}{1-\alpha}$\\
+    (b)$x\ge n+2x\alpha \Longrightarrow x\ge \frac{n}{1-2\alpha}$
+\end{solution}
+\begin{question}
+    \noindent
+    (a) Alice decides that instead of encoding her message as the values of a polynomial, she will encode her message as the coefficients of a degree 2 polynomial $P(x).$ For her message $[m_1,m_2,m_3]$, she creates the polynomial $P(x)=m_1x^2+m_2x+m_3$ and sends the five packets $(0,P(0)),(1,P(1)),(2,P(2)),(3,P(3))$, and $(4,P(4))$ to Bob. However, one of the packet y-values (one of the $P(i)$ terms; the second attribute in the pair) is changed by Eve before it reaches Bob. If Bob receives
+    $$(0,1),(1,3),(2,0),(3,1),(4,0)$$
+    and knows Alice's encoding scheme and that Eve changed one of the packets, can he recover the original message? If so, find it as well as the $x$-value of the packet that Eve changed. If he can't, explain why. Work in mod 7. Also, feel free to use a calculator or online systems of equations solver, but make sure it can work under mod 7.\\
+    (b) Bob gets tired of decoding degree 2 polynomials. He convinces Alice to encode her messages
+    on a degree 1 polynomial. Alice, just to be safe, continues to send 5 points on her polynomial even though it is only degree 1. She makes sure to choose her message so that it can be encoded on a degree 1 polynomial. However, Eve changes two of the packets. Bob receives $(0,5),(1,7),(2,x),(3,5),(4,0).$ If Alice sent $(0,5),(1,7),(2,9),(3,-2),(4,0)$, for what values of $x$ will Bob not uniquely be able to determine Alice's message? Assume that Bob knows Eve changed two packets. Work in mod 13. Again, feel free to use a calculator or graphing calculator software.\\
+    (c) Alice wants to send a length $n$ message to Bob. There are two communication channels available to her: Channel X and Channel Y. Only 6 packets can be sent through channel X. Similarly, Channel Y will only deliver 6 packets, but it will also corrupt (change the value) of one of the delivered packets. Using each of the two channels once, what is the largest message length $n$ such that Bob so that he can always reconstruct the message?
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Yes. $f(x)=x^2+x+1$, since $f\left( 0 \right) \equiv 1\left( \mathrm{mod}\;7 \right) , f\left( 1 \right) \equiv 3\left( \mathrm{mod}\;7 \right) , f\left( 2 \right) \equiv 0\left( \mathrm{mod}\;7 \right) , f\left( 4 \right) \equiv 0\left( \mathrm{mod}\;7 \right)$\\
+    (b) $x=5$ or $x=6$ or $x=10$. Just construct a new line where another 3 points are on it.
+    (c) $6+6-2=10$
+\end{solution}
+\end{document}

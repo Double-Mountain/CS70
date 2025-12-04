@@ -1,0 +1,379 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\newcounter{questionnumber}
+\newenvironment{question}[1][]{\stepcounter{questionnumber}\par\noindent\textbf{Question \thequestionnumber. #1}\par}{\par}
+\newenvironment{solution}{\par\noindent\textbf{Solution:}\par}{\par\vspace{1em}}
+\begin{document}
+\section{Discussion 05b}
+\begin{question}
+    \noindent
+    (a) The set of all irrational numbers $\mathbb{R} \setminus \mathbb{Q}$ (i.e. real numbers that are not rational) is uncountable.\\
+    (b) The set of integers $x$ that solve the equation $3x \equiv 2 \pmod{10}$ is countably infinite.\\
+    (c) The set of real solutions for the equation $x + y = 1$ is countable.
+
+    For any two functions $f: Y \rightarrow Z$ and $g: X \rightarrow Y$, let their composition $f \circ g: X \rightarrow Z$ be given by $(f \circ g)(x) = f(g(x))$ for all $x \in X$. Determine if the following statements are true or false.\\
+    (d) $f$ and $g$ are injective (one-to-one) $\Longrightarrow$ $f \circ g$ is injective (one-to-one).\\
+    (e) $f$ is surjective (onto) $\Longrightarrow$ $f \circ g$ is surjective (onto).
+\end{question}
+\begin{solution}
+    \noindent
+    (a) T (b) T (c) F (d) T (e) F
+\end{solution}
+\begin{question}
+    For two sets $A$ and $B$, define the cartesian product as $A \times B = \{(a, b) : a \in A, b \in B\}$.\\
+    (a) Given two countable sets $A$ and $B$, prove that $A \times B$ is countable.\\
+    (b) Given a finite number of countable sets $A_1, A_2, \ldots, A_n$, prove that
+    $$A_1 \times A_2 \times \cdots \times A_n$$
+    is countable.\\
+    (c) Consider a countably infinite number of finite sets: $B_1, B_2, \ldots$ for which each set has at least 2 elements. Prove that $B_1 \times B_2 \times \cdots$ is uncountable.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Let $A=\{a_1,a_2,\dots\}$, $B=\{b_1,b_2,\dots\}$.
+    For any $k=\frac{n\left( n+1 \right)}{2}+m\left( n\geq 0, 1\le m\le n+1 \right) $, let $f\left( k \right) =\left( a_{n+2-m},b_m \right) $.
+    $f$ is a bijection.\\
+    (b) For $n=2$, it is true according to (a).\\
+    Assume that the statement holds true for $n=k$, for $n=k+1$, $\left(A_1 \times A_2 \times \cdots \times A_n\right) \times A_{n+1}$ is countable according to (a).\\
+    (c) Assume that there exists a bijection $f\left( n \right) =\left( b_{1,x_{n1}},b_{2,x_{n2}},\cdots \right) $.
+    Let $y_i=(x_{i,i}+1)(\mathrm{mod}\mid B_i\mid )$, then $\left( b_{1,y_1},b_{2,y_2},\cdots \right)\neq f(n)$ for any natural number $n$. 
+\end{solution}
+\begin{question}
+    Determine the computability of the following tasks. If it's not computable, write a reduction or self-reference proof. If it is, write the program.\\
+    (a) You want to determine whether a program P on input x prints ``Hello World!''. Is there a computer program that can perform this task? Justify your answer.\\
+    (b) You want to determine whether a program P prints ``Hello World!'' before running the kth line in the program. Is there a computer program that can perform this task? Justify your answer.\\
+    (c) You want to determine whether a program P prints ``Hello World!'' in the first k steps of its execution. Is there a computer program that can perform this task? Justify your answer.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Uncomputable. If such a program PrintHW(P,x) exists we can use it to determine the halting problem.
+    \begin{lstlisting}
+    TestHalt(P,x):
+        P'(x):
+            run P(x) while surpressing print statement;
+            print("Hello World!");
+        return PrintHW(P',x);
+    \end{lstlisting}
+    (b) Uncomputable. If such a program PrintsHW(P,x,k) exists we can use it to write PrintHW().
+    \begin{lstlisting}
+    PrintHW(P,x):
+        P'(x):
+            run P(x);
+            return true;
+        return PrintsHW(P',x,2);
+    \end{lstlisting}
+    (c) Computable.
+    \begin{lstlisting}
+    PrintHWkStep(P,x,k):
+        run k until the k-th step;
+        if P has printed "hello world":
+            return true;
+        return false;
+    \end{lstlisting}
+\end{solution}
+\section{Discussion 06a}
+\begin{question}
+    Consider triplets $(M,x,L)$ where
+    \begin{itemize}
+        \item $M$ is a Java program
+        \item $x$ is some input
+        \item $L$ is an integer
+    \end{itemize}
+    and the question of: if we execute $M(x)$, do we ever hit line $L$?
+
+    Prove this problem is undecidable.
+\end{question}
+\begin{solution}
+    Assume that the problem is decidable.
+    If there is a program D(M, x, L) that can decide this question, we can decide the halting problem:
+    \begin{lstlisting}
+    Halting(P,x):
+        M(x):
+            P(x);
+            return true;
+        return D(M,x,2);
+    \end{lstlisting}
+    But the halting problem is undecidable, so such a D does not exist.
+\end{solution}
+\begin{question}
+    What is the number of strings consisting of:\\
+    (a) $n$ ones, and $m$ zeroes?\\
+    (b) $n_1$ A's, $n_2$ B's and $n_3$ C's?\\
+    (c) $n_1, n_2, \ldots, n_k$ respectively of $k$ different letters?
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $\frac{\left( n+m \right) !}{n!m!}$\\
+    (b) $\frac{\left( n_1+n_2+n_3 \right) !}{n_1!n_2!n_3!}$\\
+    (c) $\frac{\left( \sum_{i=1}^k{n_i} \right) !}{\prod_{i=1}^k{n_i!}}$
+\end{solution}
+\begin{question}
+    \noindent
+    (a) An anagram of LIVERPOOL is any re-ordering of the letters of LIVERPOOL, i.e., any string made up of the letters L, I, V, E, R, P, O, O, L in any order. For example, IVLERPOOL and POLIVOLRE are anagrams of LIVERPOOL but PIVEOLR and CHELSEA are not. The anagram does not have to be an English word.
+
+    How many different anagrams of LIVERPOOL are there?\\
+    (b) How many solutions does $y_0 + y_1 + \cdots + y_k = n$ have, if each $y$ must be a non-negative integer?\\
+    (c) How many solutions does $y_0 + y_1 + \cdots + y_k = n$ have, if each $y$ must be a positive integer?
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $\frac{9!}{2\times 2}=90720$\\
+    (b) $\left( \begin{array}{c}
+	n+k\\
+	k\\
+    \end{array} \right) $\\
+    (c) $\left( \begin{array}{c}
+	n-1\\
+	k\\
+    \end{array} \right) $
+\end{solution}
+\section{Discussion 06b}
+\begin{question}
+    What is the total number of positive integers strictly less than 100 that are also coprime to 100?
+\end{question}
+\begin{solution}
+    $99-\frac{98}{2}-\frac{95}{5}+\frac{90}{10}=40$
+\end{solution}
+\begin{question}
+    Edward, one of the previous head TA's, has been hard at work on his latest project, CS70: The Musical. It's now time for him to select a cast, crew, and directing team to help him make his dream a reality.\\
+    (a) First, Edward would like to select directors for his musical. He has received applications from $2n$ directors. Use this to provide a combinatorial argument that proves the following identity:
+    $${2n \choose 2} = 2{n \choose 2} + n^2.$$
+    (b) Edward would now like to select a crew out of $n$ people. Use this to provide a combinatorial argument that proves the following identity: (this is called Pascal's Identity)
+    $$
+    {n \choose k} = {n-1 \choose k-1} + {n-1 \choose k}.$$
+    (c) There are $n$ actors lined up outside of Edward's office, and they would like a role in the musical (including a lead role). However, he is unsure of how many individuals he would like to cast. Use this to provide a combinatorial argument that proves the following identity:
+    $$\sum_{k=1}^{n} k{n \choose k} = n2^{n-1}$$
+    (d) Generalizing the previous part, provide a combinatorial argument that proves the following identity:
+    $$
+    \sum_{k=j}^{n} {n \choose k} {k \choose j} = 2^{n-j} {n \choose j}.$$
+\end{question}
+\begin{solution}
+    \noindent
+    (a) He can either directly choose 2 directors from $2n$ candidates, or he can choose by either choosing 2 in the first $n$ candidates, or choosing 2 in the last $n$ candidates, or choosing one from each $n$ candidate.\\
+    (b) He can directly choose $k$ from $n$ people. Or, he can choose $(k-1)$ from the first $(n-1)$ people and choose the last person, or choose $k$ from the first $(n-1)$ people and not choose the last person.\\
+    (c) He can decide to choose $k$ people first, and choose $k$ people from $n$, then choose one as the lead role from $k$. Or, he can choose the lead role first and arbitrarily choose from the remaining $(n-1)$ people.\\
+    (d) He can decide to choose $k$ people first, and choose $k$ people from $n$, then choose $j$ people as the lead roles. Or, he can choose $j$ lead roles first, and arbitrarily choose from the remaining $(n-j)$ people.
+\end{solution}
+\begin{question}
+    Suppose you want $k$ items from the farmer's market. Count how many ways you can do this, assuming:\\
+    (a) There are pumpkins and apples at the market.\\
+    (b) There are pumpkins, apples, oranges, and pears at the market.\\
+    (c) There are $n$ kinds of fruits at the market, and you want to end up with at least two different types of fruit.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $k+1$\\
+    (b) $\left( \begin{array}{c}
+	k+3\\
+	3\\
+    \end{array} \right) $\\
+    (c)$\left( \begin{array}{c}
+	k+n-1\\
+    n-1\\
+    \end{array} \right) -n$
+\end{solution}
+\begin{question}
+    \noindent
+    (a) The Count is trying to choose his new 7-digit phone number. Since he is picky about his numbers, he wants it to have the property that the digits are non-increasing when read from left to right. For example, 9973220 is a valid phone number, but 9876545 is not. How many choices for a new phone number does he have?\\
+    (b) Now instead of non-increasing, they must be strictly decreasing. So 9983220 is no longer valid, while 9753210 is valid. How many choices for a new phone number does he have now?\\
+    (c) The Count now wants to make a password to secure his phone. His password must be exactly 10 digits long and can only contain the digits 0 and 1. On top of that, he also wants it to contain at least five consecutive 0's. How many possible passwords can he make?
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $\left( \begin{array}{c}
+	9+7\\
+    7\\
+    \end{array} \right) =11440$\\
+    (b) $\left( \begin{array}{c}
+	10\\
+	7\\
+    \end{array} \right) =120$\\
+    (c) $2^5+5\times 2^4=112$
+\end{solution}
+\section{Homework 06}
+\begin{question}
+    Given:
+    \begin{itemize}
+    \item $X$ is a countable, non-empty set. For all $i \in X$, $A_i$ is an uncountable set.
+    \item $Y$ is an uncountable set. For all $i \in Y$, $B_i$ is a countable set.
+    \end{itemize}
+
+    For each of the following, decide if the expression is ``Always countable'', ``Always uncountable'', ``Sometimes countable, Sometimes uncountable''.
+
+    For the ``Always'' cases, prove your claim. For the ``Sometimes'' case, provide two examples - one where the expression is countable, and one where the expression is uncountable.\\
+    (a) $X \cap Y$\\
+    (b) $X \cup Y$\\
+    (c) $\bigcup_{i \in X} A_i$\\
+    (d) $\bigcap_{i \in X} A_i$\\
+    (e) $\bigcup_{i \in Y} B_i$\\
+    (f) $\bigcap_{i \in Y} B_i$
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Countable. Since it is a subset of $X$.\\
+    (b) Uncountable. Since $Y$ is a subset of it.\\
+    (c) Uncountable. Since $A_i$ is a subset of it.\\
+    (d) Sometimes. Let $X=\{1,2\}$, $A_1=(0,1)$, $A_2=(1,2)$, then it is countable.
+    Let $X=\{1\}$, $A_1=\mathbb{R}$, then it is uncountable.\\
+    (e) Sometimes. Let $Y=\mathbb{R}$, $B_i=\emptyset$, then it is countable.
+    Let $Y=\mathbb{R}$, $B_i=\{i\}$, then it is uncountable.\\
+    (f) Countable. Since it is a subset of $B_i$.
+\end{solution}
+\begin{question}
+    For each of the following collections, determine and briefly explain whether it is finite, countably infinite (like the natural numbers), or uncountably infinite (like the reals):\\
+    (a) The integers which divide 8.\\
+    (b) The integers which 8 divides.\\
+    (c) The functions from $\mathbb{N}$ to $\mathbb{N}$.\\
+    (d) The set of strings over the English alphabet. (Note that the strings may be arbitrarily long, but each string has finite length. Also the strings need not be real English words.)\\
+    (e) The set of finite-length strings drawn from a countably infinite alphabet, $\mathscr{A}$.\\
+    (f) The set of infinite-length strings over the English alphabet.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Finite. $\{-8,-4,-2,-1,1,2,4,8\}$\\
+    (b) Countably infinite. $f(n)=8n$ is an bijection.\\
+    (c) Uncountably infinite. Assume that we have a bijection from $\mathbb{N}$ to the set of such functions, then we can find a function that is not on the list through a diagonalization argument.\\
+    (d) Countably infinite. Just treat them as 53-ary natural numbers.\\
+    (e) Countably infinite. Each time list all letters with only letters from $\{a_1,a_2,\dots,a_i\}$ with at most the length of $i$ that has not been listed before.\\
+    (f) Uncountably infinite. Assume that we have a bijection from $\mathbb{N}$ to the set, we can find an infinite-length string that is not on the list through a diagonalization argument.\\
+\end{solution}
+\begin{question}
+    Consider the problem of determining if a program P has any fixed points. Given any program P, a fixed point is an input x such that P(x) outputs x.\\
+    (a) Prove that the problem of determining whether a program has a fixed point is uncomputable.\\
+    (b) Consider the problem of outputting a fixed point of a program if it has one, and outputting "Null" otherwise. Prove that this problem is uncomputable.\\
+    (c) Consider the problem of outputting a fixed point of a program F if the fixed point exists and is a natural number, and outputting "Null" otherwise. If an input is a natural number, then it has no leading zero before its most significant bit.
+
+    Show that if this problem can be solved, then the problem in part (b) can be solved. What does this say about the computability of this problem? (You may assume that the set of all possible inputs to a program is countable, as is the case on your computer.)
+\end{question}
+\begin{solution}
+    \noindent
+    (a) Assume that we have a program Fixed(P) to determine whether a program P has a fixed point.
+    \begin{lstlisting}
+    TestHalt(F,x):
+        F'(y):
+            F(x);
+            return y;
+        return Fixed(F');
+    \end{lstlisting}
+    F' has fixed points if and only if F(x) halts, therefore Fixed can be used for solving the halting problem, which leads to contradiction.\\
+    (b) Assume that such a program Fixed(P) exists.
+    \begin{lstlisting}
+        TestHalt(F,x):
+            F'(y):
+                F(x);
+                return 1;
+            if Fixed'(F')!="Null":
+                return true;
+            else:
+                return false;
+    \end{lstlisting}
+    Fixed' can also be used to solve the halting problem, which leads to contradiction.\\
+    (c) Since all possible inputs to a program is countable, there exists a program F(n) that returns a unique string x for any natural number input n.
+    Now assume that such a program Fixed''(P) exists.
+    \begin{lstlisting}
+        Fixed'(P):
+            P'(n):
+                if P(F(n))==F(n):
+                    return n;
+                else:
+                    return n+1;
+            if Fixed''(P')!="Null":
+                return F(Fixed''(P'));
+            else:
+                return "Null";
+    \end{lstlisting}
+    If Fixed'' exists then the problem in part (b) can be solved with Fixed', therefore the problem is also uncomputable.
+\end{solution}
+\begin{question}
+    Prove whether the programs described below can exist or not.\\
+    (a) A program $P(F,x,y)$ that returns true if the program $F$ outputs $y$ when given $x$ as input (i.e. $F(x)=y$) and false otherwise.\\
+    (b) A program $P$ that takes two programs $F$ and $G$ as arguments, and returns true if $F$ and $G$ halt on the same set of inputs (or false otherwise).
+
+    Hint: Use $P$ to solve the halting problem, and consider defining two subroutines to pass in to $P$, where one of the subroutines always loops.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) It cannot exist. If P exists, it can be used to solve the halting problem as below:
+    \begin{lstlisting}
+        TestHalt(F, x):
+            P'(x):
+                F(x);
+                return 1;
+            return P(P', x, 1);
+    \end{lstlisting}
+    (b) It cannot exist. If P exists, it can be used to solve the halting problem as below:
+    \begin{lstlisting}
+        TestHalt(F, x):
+            G(y):
+                return 1;
+            H(y):
+                F(x);
+                return 1;
+            return P(G, H);
+    \end{lstlisting}
+\end{solution}
+\begin{question}
+    The only way to learn counting is to practice, practice, practice, so here is your chance to do so. Although there are many subparts, each subpart is fairly short, so this problem should not take any longer than a normal CS70 homework problem. You do not need to show work, and Leave your answers as an expression (rather than trying to evaluate it to get a specific number).\\
+    (a) How many 19-digit ternary (0,1,2) bitstrings are there such that no two adjacent digits are equal?\\
+    (b) Two identical decks of 52 cards are mixed together, yielding a stack of 104 cards. How many different ways are there to order this stack of 104 cards?\\
+    (c) An anagram of ALABAMA is any re-ordering of the letters of ALABAMA, i.e., any string made up of the letters A, L, A, B, A, M, and A, in any order. The anagram does not have to be an English word.
+
+    i. How many different anagrams of ALABAMA are there?
+
+    ii. How many different anagrams of MONTANA are there?\\
+    (d) How many different anagrams of ABCDEF are there if:
+
+    i. C is the left neighbor of E
+
+    ii. C is on the left of E (and not necessarily E's neighbor)\\
+    (e) We have 8 balls, numbered 1 through 8, and 25 bins. How many different ways are there to distribute these 8 balls among the 25 bins? Assume the bins are distinguishable (e.g., numbered 1 through 25).\\
+    (f) There are exactly 20 students currently enrolled in a class. How many different ways are there to pair up the 20 students, so that each student is paired with one other student? Solve this in at least 2 different ways. Your final answer must consist of two different expressions.
+\end{question}
+\begin{solution}
+    \noindent
+    (a) $3\times 2^{18}=786432$\\
+    (b) $\frac{104!}{2^{52}}$\\
+    (c) i. $\frac{7!}{4!}=210$; ii. $\frac{7!}{2!\times 2!}=1260$\\
+    (d) i. $5!=120$; ii. $\frac{6!}{2!}=360$\\
+    (e) $25^8$\\
+    (f) $19\times 17\times 15\times 13\times 11\times 9\times 7\times 5\times 3\times 1$;
+    $\frac{\left( \begin{array}{c}
+        20\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        18\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        16\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        14\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        12\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        10\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        8\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        6\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        4\\
+        2\\
+    \end{array} \right) \times \left( \begin{array}{c}
+        2\\
+        2\\
+    \end{array} \right)}{10!}$
+\end{solution}
+\end{document}
